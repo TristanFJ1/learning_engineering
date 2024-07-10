@@ -1,20 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sun Alarm Clock</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://js.puter.com/v2/"></script>
-  <script src="script.js" defer></script>
+  <title>Local Storage Web App</title>
+  <script>
+    // Function to save data to local storage
+    function saveData() {
+      var key = Math.random().toString();
+      var value = document.getElementById("inputData").value;
+
+      // Check if key already exists in local storage
+      if (localStorage.getItem(key)) {
+        key = Math.random().toString();
+      }
+
+      console.log(key, value);
+      localStorage.setItem(key, value);
+      alert("Data saved to local storage!");
+    }
+
+    // Function to load data from local storage
+    function loadData() {
+      var output = document.getElementById("outputData");
+      output.innerHTML = "";
+
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        var value = localStorage.getItem(key);
+
+        output.innerHTML += `<p>${value}</p><button onclick={remove(${key})}>Delete</button>`;
+        
+      }
+    }
+
+    // Function to remove data from local storage
+    function remove(key) {
+      localStorage.removeItem(key);
+      alert("Data removed from local storage!");
+    }
+
+
+  </script>
 </head>
 <body>
-  <h1>Sun Alarm Clock</h1>
-  <form id="timezoneForm">
-    <label for="timezone">Enter Timezone (e.g., lat=40.7128&lng=-74.0060 for New York):</label>
-    <input type="text" id="timezone" name="timezone" required>
-    <button type="submit">Set Alarm</button>
-  </form>
-  <div id="alarmInfo"></div>
+  <h1>Local Storage Web App</h1>
+  <input type="text" id="inputData" placeholder="Enter value">
+  <button onclick="saveData()">Save Data</button>
+  <button onclick="loadData()">Load Data</button>
+  <div id="outputData"></div>
 </body>
 </html>
